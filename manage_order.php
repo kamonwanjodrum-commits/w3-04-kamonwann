@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>รายการห้องพัก</title>
+<title>Mana</title>
 
 <style>
 *{
@@ -52,6 +52,20 @@ h2{
     font-weight:normal;
 }
 
+.add-button{
+    display:inline-block;
+    margin-bottom:20px;
+    padding:10px 20px;
+    background:#4b6cb7;
+    color:#fff;
+    text-decoration:none;
+    border-radius:4px;
+}
+
+.add-button:hover{
+    background:#3f5fa5;
+}
+
 table{
     width:100%;
     border-collapse:collapse;
@@ -78,6 +92,19 @@ tr:nth-child(even){
     background:#fafbfc;
 }
 
+img{
+    width:200px;
+    height:130px;
+    object-fit:cover;
+    border-radius:4px;
+}
+
+td a{
+    color:#4b6cb7;
+    text-decoration:none;
+    margin:0 5px;
+}
+
 .footer{
     position:fixed;
     bottom:0;
@@ -95,38 +122,50 @@ tr:nth-child(even){
 
 <nav class="top-menu">
     <a href="index.php">ข้อมูลผู้เข้าพัก</a>
-    <a href="room.php" class="active">รายการห้องพัก</a>
-    <a href="manage_order.php">จัดการรายการ</a>
+    <a href="room.php">รายการห้องพัก</a>
+    <a href="manage_order.php" class="active">จัดการรายการ</a>
     <a href="add_order.php">เพิ่มรายการจอง</a>
 </nav>
 
 <div class="content">
 
-<h2>รายการห้องพัก</h2>
+<h2>จัดการรายการ</h2>
 
 <?php
 include "action/connect.php";
-
-$sql ="SELECT * FROM rooms";
-$result = mysqli_query($con,$sql);
+$sql = "SELECT * FROM orders";
+$result = mysqli_query($con, $sql);
 ?>
+
+<a href="add_order.php" class="add-button">เพิ่ม</a>
 
 <table border="1">
 <thead>
-    <th>Room ID</th>
-    <th>Smoke</th>
-    <th>ประเภทอ่าง</th>
-    <th>Price</th>
+    <th>รหัสรายการ</th>
+    <th>ชื่อผู้เข้าพัก</th>
+    <th>ชำระเงิน</th>
+    <th>ประเภท</th>
+    <th>ห้อง</th>
+    <th>ภาพ</th>
+    <th>จัดการ</th>
 </thead>
 
 <?php
-foreach($result as $rooms){
+foreach($result as $order){
 ?>
 <tr>
-    <td><?= $rooms["room_id"] ?></td>
-    <td><?= $rooms["smoke"] ?></td>
-    <td><?= $rooms["bathtub"] ?></td>
-    <td><?= $rooms["price"] ?></td>
+    <td><?= $order["order_id"] ?></td>
+    <td><?= $order["name"] ?></td>
+    <td><?= $order["payment"] ?></td>
+    <td><?= $order["usage_type"] ?></td>
+    <td><?= $order["room_id"] ?></td>
+    <td>
+        <img src="<?= $order["image"] ?>">
+    </td>
+    <td>
+        <a href="edit_order.php?id=<?=$order["order_id"]?>">แก้ไข</a>
+        <a href="action/delete_order.php?id=<?=$order["order_id"]?>">ลบ</a>
+    </td>
 </tr>
 <?php
 }
@@ -137,7 +176,7 @@ foreach($result as $rooms){
 </div>
 
 <footer class="footer">
-     kamonwan jodrum
+   kamonwan jodrum
 </footer>
 
 </body>

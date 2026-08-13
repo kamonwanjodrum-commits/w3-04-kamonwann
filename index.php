@@ -1,126 +1,157 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>รายการการจอง</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>หน้าแรก</title>
 
-    <style>
-        *{
-            margin:0;
-            padding:0;
-            box-sizing:border-box;
-            font-family:Arial, Helvetica, sans-serif;
-        }
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial, Helvetica, sans-serif;
+}
 
-        body{
-            background:#ffffff;
-            padding:40px;
-        }
+body{
+    background:#f7f8fa;
+    color:#333;
+}
 
-        h2{
-            text-align:center;
-            color:#333;
-            margin-bottom:25px;
-            font-size:28px;
-        }
+.top-menu{
+    background:#4b6cb7;
+    display:flex;
+    align-items:center;
+    height:55px;
+}
 
-        table{
-            width:100%;
-            border-collapse:collapse;
-            background:#fff;
-            box-shadow:0 2px 10px rgba(0,0,0,.1);
-        }
+.top-menu a{
+    color:#fff;
+    text-decoration:none;
+    padding:18px 22px;
+    font-size:15px;
+}
 
-        thead{
-            background:#4b6cb7;
-            color:#fff;
-        }
+.top-menu a:hover{
+    background:#3f5fa5;
+}
 
-        th{
-            padding:15px;
-            font-size:16px;
-        }
+.top-menu a.active{
+    background:#fff;
+    color:#4b6cb7;
+}
 
-        td{
-            padding:12px;
-            text-align:center;
-            border:1px solid #ddd;
-        }
+.content{
+    padding:35px;
+    padding-bottom:70px;
+}
 
-        tr:nth-child(even){
-            background:#f8f8f8;
-        }
+h2{
+    margin-bottom:20px;
+    font-size:25px;
+    font-weight:normal;
+}
 
-        tr:hover{
-            background:#edf4ff;
-            transition:.2s;
-        }
+table{
+    width:100%;
+    border-collapse:collapse;
+    background:#fff;
+}
 
-        img{
-            width:200px;
-            height:130px;
-            object-fit:cover;
-            border-radius:8px;
-        }
+thead{
+    background:#4b6cb7;
+    color:#fff;
+}
 
-        .btn-link{
-            display:inline-block;
-            margin-top:25px;
-            padding:12px 24px;
-            background:#4b6cb7;
-            color:#fff;
-            text-decoration:none;
-            border-radius:6px;
-        }
+th{
+    padding:13px;
+    font-weight:normal;
+}
 
-        .btn-link:hover{
-            background:#3558a6;
-        }
-    </style>
+td{
+    padding:11px;
+    text-align:center;
+    border:1px solid #e2e5ea;
+}
+
+tr:nth-child(even){
+    background:#fafbfc;
+}
+
+img{
+    width:200px;
+    height:130px;
+    object-fit:cover;
+    border-radius:4px;
+}
+
+.footer{
+    position:fixed;
+    bottom:0;
+    left:0;
+    width:100%;
+    background:#4b6cb7;
+    color:#fff;
+    text-align:center;
+    padding:12px;
+}
+</style>
 </head>
+
 <body>
+
+<nav class="top-menu">
+    <a href="index.php" class="active">ข้อมูลผู้เข้าพัก</a>
+    <a href="room.php">รายการห้องพัก</a>
+    <a href="manage_order.php">จัดการรายการ</a>
+    <a href="add_order.php">เพิ่มรายการจอง</a>
+</nav>
+
+<div class="content">
 
 <h2>รายการการจองห้องพัก</h2>
 
 <?php
-    include "action/connect.php";
+include "action/connect.php";
 
-    $sql ="SELECT * FROM orders";
-    $result = mysqli_query($con,$sql);
-   // var_dump($result);
+$sql ="SELECT * FROM orders";
+$result = mysqli_query($con,$sql);
 ?>
 
 <table border="1">
-    <thead>
-        <th>รหัสรายการ</th>
-        <th>ชื่อผู้เข้าพัก</th>
-        <th>ชำระเงิน</th>
-        <th>ประเภท</th>
-        <th>ห้อง</th>
-        <th>ภาพ</th>
-    </thead>
+<thead>
+    <th>รหัสรายการ</th>
+    <th>ชื่อผู้เข้าพัก</th>
+    <th>ชำระเงิน</th>
+    <th>ประเภท</th>
+    <th>ห้อง</th>
+    <th>ภาพ</th>
+</thead>
 
-    <?php
-        foreach($result as $order){
-    ?>
-        <tr>
-            <td><?= $order["order_id"] ?></td>
-            <td><?= $order["name"] ?></td>
-            <td><?= $order["payment"] ?></td>
-            <td><?= $order["usage_type"] ?></td>
-            <td><?= $order["room_id"] ?></td>
-            <td>
-                <img src="<?=$order["image"]?>" style="width:200px">
-            </td>
-        </tr>
-    <?php
-        }
-    ?>
+<?php
+foreach($result as $order){
+?>
+<tr>
+    <td><?= $order["order_id"] ?></td>
+    <td><?= $order["name"] ?></td>
+    <td><?= $order["payment"] ?></td>
+    <td><?= $order["usage_type"] ?></td>
+    <td><?= $order["room_id"] ?></td>
+    <td>
+        <img src="<?=$order["image"]?>">
+    </td>
+</tr>
+<?php
+}
+?>
 
 </table>
 
-<a href="room.php" class="btn-link">ไปหน้า room</a>
+</div>
+
+<footer class="footer">
+     kamonwan jodrum
+</footer>
 
 </body>
 </html>
